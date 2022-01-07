@@ -1,0 +1,26 @@
+---
+version: "3.7"
+ 
+services: 
+
+  rsyslog: 
+    build:
+      context: ./build
+      dockerfile: Dockerfile
+      args:
+        - UID=${UID}
+        - GID=${GID}
+    environment:
+      - TZ=America/Chicago
+    user: "${UID}:${GID}"
+    hostname: rsyslog 
+    container_name: rsyslog 
+    restart: unless-stopped
+    volumes:
+      - "./data:/rsyslog"
+    ports: 
+      # The container runs as a normal user and uses port above 1024
+      - 10514:10514
+      - 10514:10514/udp
+    #cap_add:
+      #- SYSLOG
