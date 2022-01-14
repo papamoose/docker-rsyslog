@@ -22,5 +22,3 @@ services:
       # The container runs as a normal user and uses port above 1024
       - 10514:10514
       - 10514:10514/udp
-    #cap_add:
-      #- SYSLOG
