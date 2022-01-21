@@ -1,5 +1,9 @@
 FROM ubuntu
 
+LABEL maintainer="Philip Kauffman"
+
+ENV DEBIAN_FRONTEND=noninteractive 
+
 RUN /usr/bin/apt-get update \
     && /usr/bin/apt-get install -y \
     tzdata \
