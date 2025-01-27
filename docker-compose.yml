@@ -1,8 +1,7 @@
 ---
-version: "3.7"
- 
-services: 
-  rsyslog: 
+
+services:
+  rsyslog:
     build:
       context: .
       dockerfile: Dockerfile
@@ -12,11 +11,11 @@ services:
     environment:
     - TZ=America/Chicago
     user: "${UID}:${GID}"
-    hostname: rsyslog 
-    container_name: rsyslog 
+    hostname: rsyslog
+    container_name: rsyslog
     restart: unless-stopped
     volumes:
     - "./data:/rsyslog"
-    ports: 
+    ports:
     - 10514:10514
     - 10514:10514/udp
