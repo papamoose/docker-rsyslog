@@ -1,34 +1,19 @@
 FROM ubuntu:latest
 
-ENV DEBIAN_FRONTEND=noninteractive 
+RUN userdel --force ubuntu
 
 RUN /usr/bin/apt-get update \
-    && /usr/bin/apt-get install -y \
+  && /usr/bin/apt-get install -y \
     tzdata \
     rsyslog \
     rsyslog-relp
 
-#ENV TZ=America/Chicago
-ENV DEBIAN_FRONTEND=noninteractive
+RUN mkdir -p /etc/rsyslog.d /rsyslog \
+  && rm -f /etc/rsyslog.d/*.conf
 
-#RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime \
-#    && echo $TZ > /etc/timezone \
-#    && /usr/sbin/dpkg-reconfigure -f noninteractive tzdata
-
-RUN groupadd rsyslog \
-    && useradd \
-         --create-home \
-         --home-dir /rsyslog \
-         --shell /bin/bash \
-         --gid rsyslog \
-         rsyslog
-
-RUN mkdir -p /etc/rsyslog.d /rsyslog
 COPY rsyslog.conf /etc/rsyslog.conf
 COPY 10-server.conf /etc/rsyslog.d/10-server.conf
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
 
-#RUN /usr/bin/chown -R rsyslog:rsyslog /etc/rsyslog.conf /etc/rsyslog.d /rsyslog
-RUN /usr/bin/chown -R rsyslog:rsyslog /rsyslog
-
-USER rsyslog
-ENTRYPOINT ["rsyslogd", "-n"]
+ENTRYPOINT ["/entrypoint.sh"]
