@@ -1,4 +1,4 @@
-FROM ubuntu
+FROM ubuntu:latest
 
 ENV DEBIAN_FRONTEND=noninteractive 
 
@@ -15,19 +15,13 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime \
     && echo $TZ > /etc/timezone \
     && /usr/sbin/dpkg-reconfigure -f noninteractive tzdata
 
-ARG UID
-ARG GID
-
-RUN groupadd -g $GID rsyslog
-RUN useradd rsyslog \
-      --uid $UID \
-      --gid $GID \
-      --create-home \
-      --home-dir /rsyslog \
-      --shell /bin/bash
+RUN groupadd rsyslog \
+    && useradd rsyslog \
+         --create-home \
+         --home-dir /rsyslog \
+         --shell /bin/bash
 
 RUN mkdir -p /etc/rsyslog.d /rsyslog
-
 COPY rsyslog.conf /etc/rsyslog.conf
 COPY 10-server.conf /etc/rsyslog.d/10-server.conf
 
