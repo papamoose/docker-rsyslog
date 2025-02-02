@@ -2,10 +2,10 @@
 services:
 
   rsyslog:
-    build:
-      context: ./build
-      dockerfile: Dockerfile
-    #image: ghcr.io/papamoose/docker-rsyslog-server:latest
+    #build:
+    #  context: ./build
+    #  dockerfile: Dockerfile
+    image: ghcr.io/papamoose/docker-rsyslog-server:latest
     environment:
       TZ: America/Chicago
       PUID: 1000
