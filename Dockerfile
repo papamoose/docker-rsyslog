@@ -12,6 +12,9 @@ RUN mkdir -p /etc/rsyslog.d /rsyslog \
   && rm -f /etc/rsyslog.d/*.conf
 
 COPY rsyslog.conf /etc/rsyslog.conf
+COPY rsyslog.conf /etc/rsyslog_noroot.conf
+RUN sed -i 's/^#//g' /etc/rsyslog_noroot.conf
+
 COPY 10-server.conf /etc/rsyslog.d/10-server.conf
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh

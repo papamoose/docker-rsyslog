@@ -1,21 +1,21 @@
 ---
-
 services:
+
   rsyslog:
-    build:
-      context: .
-      dockerfile: Dockerfile
-      args:
-      - UID=${UID}
-      - GID=${GID}
+    #build:
+    #  context: .
+    #  dockerfile: Dockerfile
+    image: ghcr.io/papamoose/docker-rsyslog-server:latest
     environment:
-    - TZ=America/Chicago
-    user: "${UID}:${GID}"
+      TZ: America/Chicago
+      PUID: 1000
+      PGID: 1000
     hostname: rsyslog
     container_name: rsyslog
     restart: unless-stopped
     volumes:
-    - "./data:/rsyslog"
+      - "./data:/rsyslog"
     ports:
-    - 10514:10514
-    - 10514:10514/udp
+      # The container runs as a normal user and uses port above 1024
+      - 10514:10514
+      - 10514:10514/udp
